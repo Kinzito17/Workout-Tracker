@@ -1,6 +1,8 @@
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const Exercise = require("./models/exercisesModel.js");
+
 
 const PORT = process.env.PORT || 3000;
 
