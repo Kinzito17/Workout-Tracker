@@ -1,10 +1,10 @@
 const router = require("express").Router();
-const Exercise = require("../models/exercisesModel.js");
+const Workout = require("../models/workout.js");
 
 router.post("/api/workouts", ({ body }, res) => {
-    Exercise.create(body)
-        .then(dbExercise => {
-            res.json(dbExercise);
+    Workout.create(body)
+        .then(dbWorkout => {
+            res.json(dbWorkout);
         })
         .catch(err => {
             res.status(400).json(err);
@@ -12,10 +12,11 @@ router.post("/api/workouts", ({ body }, res) => {
 });
 
 router.put("/api/workouts/:id", ({ body, params }, res) => {
-    Exercise.findByIdAndUpdate(params.id,
-        { $push: { exercises: body } }, { new: true, runValidators: true })
-        .then(dbExercise => {
-            res.json(dbExercise);
+    console.log(params)
+    Workout.findByIdAndUpdate(params.id,
+        { $push: { exercise: body } }, { new: true })
+        .then(dbWorkout => {
+            res.json(dbWorkout);
         })
         .catch(err => {
             res.status(400).json(err);
@@ -23,9 +24,9 @@ router.put("/api/workouts/:id", ({ body, params }, res) => {
 });
 
 router.get("/api/workouts", (req, res) => {
-    Exercise.find({})
-        .then(dbExercise => {
-            res.json(dbExercise);
+    Workout.find({})
+        .then(dbWorkout => {
+            res.json(dbWorkout);
         })
         .catch(err => {
             res.status(400).json(err);
@@ -33,11 +34,11 @@ router.get("/api/workouts", (req, res) => {
 });
 
 router.get("/api/workouts/range", (req, res) => {
-    Exercise.find({})
+    Workout.find({})
         //get rid of sort and add 
         .sort({ date: -1 })
-        .then(dbExercise => {
-            res.json(dbExercise);
+        .then(dbWorkout => {
+            res.json(dbWorkout);
         })
         .catch(err => {
             res.status(400).json(err);
@@ -45,7 +46,7 @@ router.get("/api/workouts/range", (req, res) => {
 });
 
 router.delete("/api/workouts", ({ body }, res) => {
-    Exercise.findByIdAndRemove(body.id)
+    Workout.findByIdAndRemove(body.id)
         .then(() => {
             res.json(true);
         })
