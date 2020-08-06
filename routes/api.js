@@ -12,9 +12,9 @@ router.post("/api/workouts", ({ body }, res) => {
 });
 
 router.put("/api/workouts/:id", ({ body, params }, res) => {
-    console.log(params)
+    console.log(body)
     Workout.findByIdAndUpdate(params.id,
-        { $push: { exercise: body } }, { new: true })
+        { $push: { exercises: body } }, { new: true })
         .then(dbWorkout => {
             res.json(dbWorkout);
         })
@@ -36,7 +36,7 @@ router.get("/api/workouts", (req, res) => {
 router.get("/api/workouts/range", (req, res) => {
     Workout.find({})
         //get rid of sort and add 
-        .limit(5)
+        .limit(10)
         .then(dbWorkout => {
             res.json(dbWorkout);
         })
