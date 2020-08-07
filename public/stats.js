@@ -11,8 +11,8 @@ fetch("/api/workouts/range")
 
 API.getWorkoutsInRange()
 
-  function generatePalette() {
-    const arr = [
+function generatePalette() {
+  const arr = [
     "#003f5c",
     "#2f4b7c",
     "#665191",
@@ -32,10 +32,12 @@ API.getWorkoutsInRange()
   ]
 
   return arr;
-  }
+}
 function populateChart(data) {
   let durations = duration(data);
   let pounds = calculateTotalWeight(data);
+  let durationsByWorkout = durationByWorkout(data);
+  let totalWeights = weightByWorkout(data);
   let workouts = workoutNames(data);
   const colors = generatePalette();
 
@@ -153,14 +155,14 @@ function populateChart(data) {
         {
           label: "Excercises Performed",
           backgroundColor: colors,
-          data: durations
+          data: durationsByWorkout
         }
       ]
     },
     options: {
       title: {
         display: true,
-        text: "Excercises Performed"
+        text: "Excercises Performed by time"
       }
     }
   });
@@ -173,7 +175,7 @@ function populateChart(data) {
         {
           label: "Excercises Performed",
           backgroundColor: colors,
-          data: pounds
+          data: totalWeights
         }
       ]
     },
@@ -187,6 +189,21 @@ function populateChart(data) {
 }
 
 function duration(data) {
+  let durations = [0, 0, 0, 0, 0, 0, 0];
+
+  data.forEach(workout => {
+    let day = new Date(workout.day)
+    let dayIndex = day.getDay();
+    workout.exercises.forEach(exercise => {
+      let newDuration = durations[dayIndex] + exercise.duration
+      durations.splice(dayIndex, 1, newDuration);
+    });
+  });
+
+  return durations;
+}
+
+function durationByWorkout(data) {
   let durations = [];
 
   data.forEach(workout => {
@@ -194,11 +211,26 @@ function duration(data) {
       durations.push(exercise.duration);
     });
   });
-
   return durations;
-}
+};
 
 function calculateTotalWeight(data) {
+  let total = [0, 0, 0, 0, 0, 0, 0];
+
+  data.forEach(workout => {
+    let day = new Date(workout.day)
+    let dayIndex = day.getDay();
+    workout.exercises.forEach(exercise => {
+      let newWeight = total[dayIndex] + exercise.weight
+      total.splice(dayIndex, 1, newWeight);
+    });
+  });
+
+  return total;
+}
+
+
+function weightByWorkout(data) {
   let total = [];
 
   data.forEach(workout => {
@@ -206,9 +238,9 @@ function calculateTotalWeight(data) {
       total.push(exercise.weight);
     });
   });
-
   return total;
 }
+
 
 function workoutNames(data) {
   let workouts = [];
@@ -218,6 +250,6 @@ function workoutNames(data) {
       workouts.push(exercise.name);
     });
   });
-  
+
   return workouts;
 }
