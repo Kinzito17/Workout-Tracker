@@ -35,16 +35,12 @@ SO THAT I can track my progress over time
 
 1. Main Page 
 
-![Alt text](/screenshots/main.PNG "Optional Title")
+![](/public/assets/homepage.png)
 
-2. Singup Page
+2. Add new workout
 
-![Alt text](/screenshots/signup.PNG "Optional Title")
+![](/public/assets/newWorkout.png)
 
 3. Sell Page
 
-![Alt text](/screenshots/sell.PNG "Optional Title")
-
-4. Shop Page
-
-![Alt text](/screenshots/buy.PNG "Optional Title")
+![](/public/assets/stats.png)
