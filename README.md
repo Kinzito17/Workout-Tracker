@@ -41,6 +41,6 @@ SO THAT I can track my progress over time
 
 ![](/public/assets/newWorkout.png)
 
-3. Sell Page
+3. Dashboard
 
 ![](/public/assets/stats.png)
